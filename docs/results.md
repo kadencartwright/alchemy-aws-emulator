@@ -54,3 +54,11 @@ credentials were supplied, no live providers registered, and telemetry was off.
 
 CI is configured to repeat these local checks on Ubuntu without cloud credentials;
 local results do not claim a completed hosted CI run.
+
+A fresh **public HTTPS clone** of commit `eae3ec5` in a separate temporary
+directory completed the README sequence: frozen install, fresh verified package
+download/extraction, typecheck, build, all 9 tests (0 skips), explicit demo and
+notification demo. All commands exited zero. The pnpm content store was shared
+with the host; node_modules, emulator package, session files and build output
+were created anew in the clone. A separate compiled-Node SIGTERM probe confirmed
+that interrupting the CLI finalized and stopped its one owned emulator child.
