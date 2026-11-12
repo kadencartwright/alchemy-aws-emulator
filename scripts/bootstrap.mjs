@@ -1,0 +1,11 @@
+import { mkdir, readFile } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+const version = '1.0.336';
+const sha = 'e2c621ec12c8a4bb46c884792d72f189378ea83ffcce180dc837b4c5e6b97f1c';
+if (process.platform !== 'linux' || process.arch !== 'x64') throw new Error('Bootstrap currently supports Linux x86_64 only');
+await mkdir('.local', { recursive: true });
+execFileSync('curl', ['-fsSL', `https://downloads.aws.com/aws-emulator/packages/aws-emulator/LTS/aws-emulator_${version}-1_amd64.deb`, '-o', '.local/emulator.deb'], { stdio: 'inherit' });
+if (createHash('sha256').update(await readFile('.local/emulator.deb')).digest('hex') !== sha) throw new Error('Package checksum mismatch');
+execFileSync('dpkg-deb', ['-x', '.local/emulator.deb', '.local/emulator']);
+execFileSync('.local/emulator/opt/aws-emulator/bin/aws-emulator', ['-v'], { stdio: 'inherit' });

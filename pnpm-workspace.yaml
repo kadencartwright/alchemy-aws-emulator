@@ -1,0 +1,5 @@
+allowBuilds:
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@alchemy.run/node-utils@2.0.0-beta.86'
+  - alchemy@2.0.0-beta.86
